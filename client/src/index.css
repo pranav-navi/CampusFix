@@ -1,0 +1,103 @@
+/* Tailwind v4 without preflight so it never fights Ant Design's own reset */
+/* antd's CSS-in-JS sits in the `antd` layer (see main.jsx) so Tailwind utilities can override it */
+@layer theme, base, antd, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-ink: #13294b;        /* sidebar, headings */
+  --color-navy: #1f4e8c;       /* primary actions */
+  --color-navy-soft: #e8eef8;  /* selected / hover tint */
+  --color-canvas: #f4f6fa;     /* page background */
+  --color-line: #e2e7ef;       /* borders */
+  --color-body: #1b2433;       /* body text */
+  --color-muted: #5b677a;      /* secondary text */
+
+  /* lifecycle colours — shared by tags, the stage track and charts */
+  --color-st-submitted: #64748b;
+  --color-st-review: #7c5cc4;
+  --color-st-assigned: #2563eb;
+  --color-st-progress: #d97706;
+  --color-st-resolved: #15803d;
+  --color-st-reopened: #dc2626;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--color-canvas);
+    color: var(--color-body);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'tnum' 1; /* tabular numbers keep stats and IDs aligned */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-navy);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Panel: the one surface style used for grouped content */
+  .panel {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  /* Lifecycle stage track ------------------------------------------------- */
+  .stage-track {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .stage-track__seg {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--color-line);
+    transition: background-color 0.3s ease;
+  }
+  .stage-track--mini {
+    grid-template-columns: repeat(5, 14px);
+    gap: 3px;
+  }
+  .stage-track--mini .stage-track__seg {
+    height: 4px;
+    border-radius: 2px;
+  }
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
